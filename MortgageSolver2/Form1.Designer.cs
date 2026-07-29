@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblPayoff = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPayoff = new System.Windows.Forms.TextBox();
             this.tbExpenses = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tbIncome = new System.Windows.Forms.TextBox();
-            this.tbSalePriceMin = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbSalePriceMax = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbSalePriceInc = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbTaxesInc = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tbTaxesMax = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tbTaxesMin = new System.Windows.Forms.TextBox();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cboIV = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblDV2 = new System.Windows.Forms.Label();
+            this.lblDV1 = new System.Windows.Forms.Label();
+            this.cboDV2 = new System.Windows.Forms.ComboBox();
+            this.cboDV1 = new System.Windows.Forms.ComboBox();
+            this.btnCalculate = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPayoff
@@ -84,24 +85,6 @@
             this.tbExpenses.TabIndex = 3;
             this.tbExpenses.Text = "$5,000";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 103);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Sale Price";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(103, 133);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Taxes";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -119,129 +102,107 @@
             this.tbIncome.TabIndex = 7;
             this.tbIncome.Text = "$7,070";
             // 
-            // tbSalePriceMin
+            // chart
             // 
-            this.tbSalePriceMin.Location = new System.Drawing.Point(159, 99);
-            this.tbSalePriceMin.Name = "tbSalePriceMin";
-            this.tbSalePriceMin.Size = new System.Drawing.Size(73, 20);
-            this.tbSalePriceMin.TabIndex = 8;
-            this.tbSalePriceMin.Text = "$650,000";
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(16, 132);
+            this.chart.Name = "chart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart.Series.Add(series1);
+            this.chart.Size = new System.Drawing.Size(1057, 544);
+            this.chart.TabIndex = 20;
+            this.chart.Text = "chart1";
             // 
-            // label5
+            // groupBox1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(248, 103);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Min";
+            this.groupBox1.Controls.Add(this.cboIV);
+            this.groupBox1.Location = new System.Drawing.Point(290, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(154, 77);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Independent Variable";
             // 
-            // tbSalePriceMax
+            // cboIV
             // 
-            this.tbSalePriceMax.Location = new System.Drawing.Point(278, 99);
-            this.tbSalePriceMax.Name = "tbSalePriceMax";
-            this.tbSalePriceMax.Size = new System.Drawing.Size(73, 20);
-            this.tbSalePriceMax.TabIndex = 10;
-            this.tbSalePriceMax.Text = "$725,000";
+            this.cboIV.FormattingEnabled = true;
+            this.cboIV.Location = new System.Drawing.Point(17, 25);
+            this.cboIV.Name = "cboIV";
+            this.cboIV.Size = new System.Drawing.Size(121, 21);
+            this.cboIV.TabIndex = 0;
+            this.cboIV.SelectedIndexChanged += new System.EventHandler(this.cboIV_SelectedIndexChanged);
             // 
-            // label6
+            // groupBox2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(367, 103);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(27, 13);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Max";
+            this.groupBox2.Controls.Add(this.lblDV2);
+            this.groupBox2.Controls.Add(this.lblDV1);
+            this.groupBox2.Controls.Add(this.cboDV2);
+            this.groupBox2.Controls.Add(this.cboDV1);
+            this.groupBox2.Location = new System.Drawing.Point(450, 9);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(318, 100);
+            this.groupBox2.TabIndex = 26;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Dependent Variables";
             // 
-            // tbSalePriceInc
+            // lblDV2
             // 
-            this.tbSalePriceInc.Location = new System.Drawing.Point(400, 99);
-            this.tbSalePriceInc.Name = "tbSalePriceInc";
-            this.tbSalePriceInc.Size = new System.Drawing.Size(73, 20);
-            this.tbSalePriceInc.TabIndex = 12;
-            this.tbSalePriceInc.Text = "$5,000";
+            this.lblDV2.AutoSize = true;
+            this.lblDV2.Location = new System.Drawing.Point(172, 29);
+            this.lblDV2.Name = "lblDV2";
+            this.lblDV2.Size = new System.Drawing.Size(0, 13);
+            this.lblDV2.TabIndex = 3;
             // 
-            // label7
+            // lblDV1
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(489, 103);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(22, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "Inc";
+            this.lblDV1.AutoSize = true;
+            this.lblDV1.Location = new System.Drawing.Point(18, 29);
+            this.lblDV1.Name = "lblDV1";
+            this.lblDV1.Size = new System.Drawing.Size(0, 13);
+            this.lblDV1.TabIndex = 2;
             // 
-            // label8
+            // cboDV2
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(489, 133);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(22, 13);
-            this.label8.TabIndex = 19;
-            this.label8.Text = "Inc";
+            this.cboDV2.FormattingEnabled = true;
+            this.cboDV2.Location = new System.Drawing.Point(165, 52);
+            this.cboDV2.Name = "cboDV2";
+            this.cboDV2.Size = new System.Drawing.Size(121, 21);
+            this.cboDV2.TabIndex = 1;
             // 
-            // tbTaxesInc
+            // cboDV1
             // 
-            this.tbTaxesInc.Location = new System.Drawing.Point(400, 129);
-            this.tbTaxesInc.Name = "tbTaxesInc";
-            this.tbTaxesInc.Size = new System.Drawing.Size(73, 20);
-            this.tbTaxesInc.TabIndex = 18;
-            this.tbTaxesInc.Text = "$500";
+            this.cboDV1.FormattingEnabled = true;
+            this.cboDV1.Location = new System.Drawing.Point(18, 52);
+            this.cboDV1.Name = "cboDV1";
+            this.cboDV1.Size = new System.Drawing.Size(121, 21);
+            this.cboDV1.TabIndex = 0;
             // 
-            // label9
+            // btnCalculate
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(367, 133);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(27, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Max";
-            // 
-            // tbTaxesMax
-            // 
-            this.tbTaxesMax.Location = new System.Drawing.Point(278, 129);
-            this.tbTaxesMax.Name = "tbTaxesMax";
-            this.tbTaxesMax.Size = new System.Drawing.Size(73, 20);
-            this.tbTaxesMax.TabIndex = 16;
-            this.tbTaxesMax.Text = "$12,000";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(248, 133);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 13);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Min";
-            // 
-            // tbTaxesMin
-            // 
-            this.tbTaxesMin.Location = new System.Drawing.Point(159, 129);
-            this.tbTaxesMin.Name = "tbTaxesMin";
-            this.tbTaxesMin.Size = new System.Drawing.Size(73, 20);
-            this.tbTaxesMin.TabIndex = 14;
-            this.tbTaxesMin.Text = "$3,500";
+            this.btnCalculate.Location = new System.Drawing.Point(857, 43);
+            this.btnCalculate.Name = "btnCalculate";
+            this.btnCalculate.Size = new System.Drawing.Size(106, 23);
+            this.btnCalculate.TabIndex = 27;
+            this.btnCalculate.Text = "Calculate";
+            this.btnCalculate.UseVisualStyleBackColor = true;
+            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.tbTaxesInc);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.tbTaxesMax);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.tbTaxesMin);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.tbSalePriceInc);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.tbSalePriceMax);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.tbSalePriceMin);
+            this.ClientSize = new System.Drawing.Size(1109, 688);
+            this.Controls.Add(this.btnCalculate);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.chart);
             this.Controls.Add(this.tbIncome);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.tbExpenses);
             this.Controls.Add(this.tbPayoff);
             this.Controls.Add(this.label1);
@@ -249,6 +210,10 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,22 +225,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbPayoff;
         private System.Windows.Forms.TextBox tbExpenses;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tbIncome;
-        private System.Windows.Forms.TextBox tbSalePriceMin;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox tbSalePriceMax;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox tbSalePriceInc;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbTaxesInc;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox tbTaxesMax;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox tbTaxesMin;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox cboIV;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox cboDV2;
+        private System.Windows.Forms.ComboBox cboDV1;
+        private System.Windows.Forms.Label lblDV2;
+        private System.Windows.Forms.Label lblDV1;
+        private System.Windows.Forms.Button btnCalculate;
     }
 }
 
