@@ -20,6 +20,7 @@ namespace MortgageSolver2
         private decimal payoff;
         private decimal expenses;
         private decimal income;
+        private decimal profitsWithheld;
 
         private Dictionary<int, decimal> termRates;
 
@@ -28,6 +29,8 @@ namespace MortgageSolver2
         private bool initialized = false;
 
         private List<IndependentPricePoint> pricePoints = new List<IndependentPricePoint>();
+
+        private StringBuilder sbPI;
 
         public Form1()
         {
@@ -49,13 +52,6 @@ namespace MortgageSolver2
             cboIV.ValueMember = "ItemCode";
             cboIV.SelectedIndex = -1;
 
-            ChartArea chartArea = new ChartArea("MainArea");
-            chartArea.AxisX.Title = "X Axis";
-            chartArea.AxisY.Title = "Y Axis";
-            chartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
-            chartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
-            chart.ChartAreas.Add(chartArea);
-
             initialized = true;
         }
 
@@ -64,18 +60,43 @@ namespace MortgageSolver2
             payoff = decimal.Parse(tbPayoff.Text, System.Globalization.NumberStyles.Currency);
             expenses = decimal.Parse(tbExpenses.Text, System.Globalization.NumberStyles.Currency);
             income = decimal.Parse(tbIncome.Text, System.Globalization.NumberStyles.Currency);
+            profitsWithheld = decimal.Parse(tbProfitsWithheld.Text, System.Globalization.NumberStyles.Currency);
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             CreateSalesPriceChart();
-            int[] xValues = { 1, 2, 3, 4, 5 };
-            double[] yValues = { 15.5, 23.0, 18.2, 31.4, 25.0 };
 
-            // Ensure the chart series is set to Line
+            chart.ChartAreas.Clear();
+            ChartArea chartArea = new ChartArea("MainArea");
+            chartArea.AxisX.Title = "X Axis";
+            chartArea.AxisY.Title = "Y Axis";
+            chartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chart.ChartAreas.Add(chartArea);
+
+            switch (independentVariable)
+            {
+                case IndependentVariables.SalePrice:
+                    chart.ChartAreas[0].AxisX.Title = "Sale Price";
+                    break;
+                case IndependentVariables.PurchasePrice:
+                    chart.ChartAreas[0].AxisX.Title = "Purchase Price";
+                    break;
+                case IndependentVariables.PropertyTax:
+                    chart.ChartAreas[0].AxisX.Title = "Property Tax";
+                    break;
+            }
+            chart.ChartAreas[0].AxisY.Title = "P/L $";
+
+            chart.Series.Clear();
+
+            Series series1 = new Series("Series1");
+            series1.ChartArea = "MainArea";
+            series1.LegendText = "15 Year Term";
+            series1.BorderWidth = 3;
+            chart.Series.Add(series1);
             chart.Series["Series1"].ChartType = SeriesChartType.Line;
-
-            // Bind both arrays simultaneously
             chart.Series["Series1"].Points
                 .DataBindXY(
                     pricePoints
@@ -83,10 +104,44 @@ namespace MortgageSolver2
                     pricePoints
                         .Select(p => (double)p.Net[0]).ToArray());
 
+            Series series2 = new Series("Series2");
+            series2.ChartArea = "MainArea";
+            series2.LegendText = "20 Year Term";
+            series2.BorderWidth = 3;
+            chart.Series.Add(series2);  
+            chart.Series["Series2"].ChartType = SeriesChartType.Line;
+            series2.ChartArea = "MainArea";
+            // Bind both arrays simultaneously
+            chart.Series["Series2"].Points
+                .DataBindXY(
+                    pricePoints
+                        .Select(p => (double)p.IndependentPrice).ToArray(),
+                    pricePoints
+                        .Select(p => (double)p.Net[1]).ToArray());
+
+            Series series3 = new Series("Series3");
+            series3.ChartArea = "MainArea";
+            series3.LegendText = "30 Year Term";
+            series3.BorderWidth = 3;
+            chart.Series.Add(series3);
+            chart.Series["Series3"].ChartType = SeriesChartType.Line;
+            chart.Series["Series3"].Points
+                .DataBindXY(
+                    pricePoints
+                        .Select(p => (double)p.IndependentPrice).ToArray(),
+                    pricePoints
+                        .Select(p => (double)p.Net[2]).ToArray());
+
+            chart.ChartAreas[0].AxisY.Minimum = double.NaN;
+            chart.ChartAreas[0].AxisY.Maximum = double.NaN;
+            chart.ChartAreas[0].AxisY.Interval = double.NaN;
+            chart.ChartAreas[0].RecalculateAxesScale();
         }
 
         private void CreateSalesPriceChart()
         {
+            sbPI = new StringBuilder();
+
             pricePoints.Clear();
             var independentPrices = new List<decimal>();
             switch (independentVariable)
@@ -120,6 +175,11 @@ namespace MortgageSolver2
                     CalculateTaxPricePoints(independentPrices, insurance);
                     break;
             }
+
+            FileInfo fi = new FileInfo(@"c:\zzz\PI.csv");
+            var sw = fi.CreateText();
+            sw.Write(sbPI.ToString());
+            sw.Close();
         }
 
         private void CalculateSalePricePoints(List<decimal> salePrices, decimal insurance)
@@ -131,7 +191,7 @@ namespace MortgageSolver2
                 int i = 0;
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
-                    var amountToFinance = nextHomePrice - (point.IndependentPrice - payoff);
+                    var amountToFinance = nextHomePrice - (point.IndependentPrice - payoff - profitsWithheld);
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + propertyTax + insurance;
                     point.Net[i++] = income - (monthlyPayment + expenses);
@@ -148,7 +208,7 @@ namespace MortgageSolver2
                 int i = 0;
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
-                    var amountToFinance = point.IndependentPrice - (salePrice - payoff);
+                    var amountToFinance = point.IndependentPrice - (salePrice - payoff - profitsWithheld);
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + propertyTax + insurance;
                     point.Net[i++] = income - (monthlyPayment + expenses);
@@ -165,7 +225,7 @@ namespace MortgageSolver2
                 int i = 0;
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
-                    var amountToFinance = purchasePrice - (salePrice - payoff);
+                    var amountToFinance = purchasePrice - (salePrice - payoff - profitsWithheld);
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + (point.IndependentPrice / 12.0M) + insurance;
                     point.Net[i++] = income - (monthlyPayment + expenses);
@@ -179,7 +239,10 @@ namespace MortgageSolver2
             var r = annualRate / (12 * 100);
             var numerator = (decimal)(decimal.ToDouble(r) * Math.Pow(1.0 + decimal.ToDouble(r), numberOfPayments));
             var denominator = (decimal)(Math.Pow(1.0 + decimal.ToDouble(r), numberOfPayments) - 1.0);
-            return principal * numerator / denominator;
+            var PI = principal * numerator / denominator;
+
+            sbPI.AppendLine(principal.ToString() + "," +  annualRate.ToString() + "," + termInYears.ToString() + "," + PI.ToString());
+            return PI;
         }
 
         private void cboIV_SelectedIndexChanged(object sender, EventArgs e)

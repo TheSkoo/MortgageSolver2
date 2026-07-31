@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblPayoff = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPayoff = new System.Windows.Forms.TextBox();
@@ -46,6 +46,8 @@
             this.cboDV2 = new System.Windows.Forms.ComboBox();
             this.cboDV1 = new System.Windows.Forms.ComboBox();
             this.btnCalculate = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbProfitsWithheld = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -83,7 +85,7 @@
             this.tbExpenses.Name = "tbExpenses";
             this.tbExpenses.Size = new System.Drawing.Size(73, 20);
             this.tbExpenses.TabIndex = 3;
-            this.tbExpenses.Text = "$5,000";
+            this.tbExpenses.Text = "$4,500";
             // 
             // label4
             // 
@@ -104,16 +106,19 @@
             // 
             // chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart.Legends.Add(legend1);
+            this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea2.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart.Legends.Add(legend2);
             this.chart.Location = new System.Drawing.Point(16, 132);
             this.chart.Name = "chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(1057, 544);
             this.chart.TabIndex = 20;
             this.chart.Text = "chart1";
@@ -192,11 +197,30 @@
             this.btnCalculate.UseVisualStyleBackColor = true;
             this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 105);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(171, 13);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Profits withheld from next purchase";
+            // 
+            // tbProfitsWithheld
+            // 
+            this.tbProfitsWithheld.Location = new System.Drawing.Point(189, 102);
+            this.tbProfitsWithheld.Name = "tbProfitsWithheld";
+            this.tbProfitsWithheld.Size = new System.Drawing.Size(73, 20);
+            this.tbProfitsWithheld.TabIndex = 29;
+            this.tbProfitsWithheld.Text = "$0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1109, 688);
+            this.Controls.Add(this.tbProfitsWithheld);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnCalculate);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -236,6 +260,8 @@
         private System.Windows.Forms.Label lblDV2;
         private System.Windows.Forms.Label lblDV1;
         private System.Windows.Forms.Button btnCalculate;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbProfitsWithheld;
     }
 }
 
