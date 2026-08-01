@@ -65,6 +65,7 @@ namespace MortgageSolver2
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
+            RefreshFromForm();
             CreateSalesPriceChart();
 
             chart.ChartAreas.Clear();
