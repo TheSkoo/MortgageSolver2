@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -47,10 +50,14 @@
             this.cboDV1 = new System.Windows.Forms.ComboBox();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.rbAmountFinanced = new System.Windows.Forms.RadioButton();
+            this.rbPITI = new System.Windows.Forms.RadioButton();
             this.tbProfitsWithheld = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblPayoff
@@ -106,20 +113,19 @@
             // 
             // chart
             // 
-            this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart.Legends.Add(legend2);
-            this.chart.Location = new System.Drawing.Point(16, 132);
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(12, 132);
             this.chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart.Series.Add(series2);
-            this.chart.Size = new System.Drawing.Size(1057, 544);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart.Series.Add(series1);
+            this.chart.Size = new System.Drawing.Size(1057, 378);
             this.chart.TabIndex = 20;
             this.chart.Text = "chart1";
             // 
@@ -206,6 +212,49 @@
             this.label2.TabIndex = 28;
             this.label2.Text = "Profits withheld from next purchase";
             // 
+            // chart1
+            // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(3, 539);
+            this.chart1.Name = "chart1";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(1057, 165);
+            this.chart1.TabIndex = 30;
+            this.chart1.Text = "chart1";
+            // 
+            // rbAmountFinanced
+            // 
+            this.rbAmountFinanced.AutoSize = true;
+            this.rbAmountFinanced.Checked = true;
+            this.rbAmountFinanced.Location = new System.Drawing.Point(3, 516);
+            this.rbAmountFinanced.Name = "rbAmountFinanced";
+            this.rbAmountFinanced.Size = new System.Drawing.Size(108, 17);
+            this.rbAmountFinanced.TabIndex = 31;
+            this.rbAmountFinanced.TabStop = true;
+            this.rbAmountFinanced.Text = "Amount Financed";
+            this.rbAmountFinanced.UseVisualStyleBackColor = true;
+            this.rbAmountFinanced.CheckedChanged += new System.EventHandler(this.LowerChart_CheckedChanged);
+            // 
+            // rbPITI
+            // 
+            this.rbPITI.AutoSize = true;
+            this.rbPITI.Location = new System.Drawing.Point(126, 516);
+            this.rbPITI.Name = "rbPITI";
+            this.rbPITI.Size = new System.Drawing.Size(106, 17);
+            this.rbPITI.TabIndex = 32;
+            this.rbPITI.Text = "Monthly Payment";
+            this.rbPITI.UseVisualStyleBackColor = true;
+            this.rbPITI.CheckedChanged += new System.EventHandler(this.LowerChart_CheckedChanged);
+            // 
             // tbProfitsWithheld
             // 
             this.tbProfitsWithheld.Location = new System.Drawing.Point(189, 102);
@@ -218,7 +267,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1109, 688);
+            this.ClientSize = new System.Drawing.Size(1109, 714);
+            this.Controls.Add(this.rbPITI);
+            this.Controls.Add(this.rbAmountFinanced);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.tbProfitsWithheld);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnCalculate);
@@ -238,6 +290,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -261,6 +314,9 @@
         private System.Windows.Forms.Label lblDV1;
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.RadioButton rbAmountFinanced;
+        private System.Windows.Forms.RadioButton rbPITI;
         private System.Windows.Forms.TextBox tbProfitsWithheld;
     }
 }

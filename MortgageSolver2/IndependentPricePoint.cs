@@ -11,5 +11,7 @@ namespace MortgageSolver2
     {
         public decimal IndependentPrice { get; set; }
         public decimal[] Net = new decimal[3];
+        public decimal[] PITI = new decimal[3];
+        public decimal AmountFinanced { get; set; }
     }
 }
