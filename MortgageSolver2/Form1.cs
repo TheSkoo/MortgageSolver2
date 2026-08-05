@@ -137,6 +137,83 @@ namespace MortgageSolver2
             chart.ChartAreas[0].AxisY.Maximum = double.NaN;
             chart.ChartAreas[0].AxisY.Interval = double.NaN;
             chart.ChartAreas[0].RecalculateAxesScale();
+
+            PopulateLowerChart();
+        }
+
+        private void PopulateLowerChart()
+        {
+            chart1.ChartAreas.Clear();
+            ChartArea chartArea1 = new ChartArea("MainArea");
+            chartArea1.AxisX.Title = "X Axis";
+            chartArea1.AxisY.Title = "Y Axis";
+            chartArea1.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chart1.ChartAreas.Add(chartArea1);
+            chart1.Series.Clear();
+
+            if (rbAmountFinanced.Checked)
+            {
+                Series series4 = new Series("Series4");
+                series4.ChartArea = "MainArea";
+                series4.LegendText = "Amount Financed";
+                series4.BorderWidth = 3;
+                chart1.Series.Add(series4);
+                chart1.Series["Series4"].ChartType = SeriesChartType.Line;
+                chart1.Series["Series4"].Points
+                    .DataBindXY(
+                        pricePoints
+                            .Select(p => (double)p.IndependentPrice).ToArray(),
+                        pricePoints
+                            .Select(p => (double)p.AmountFinanced).ToArray());
+            }
+            else
+            {
+                Series series7 = new Series("Series7");
+                series7.ChartArea = "MainArea";
+                series7.LegendText = "15 Year Term";
+                series7.BorderWidth = 3;
+                chart1.Series.Add(series7);
+                chart1.Series["Series7"].ChartType = SeriesChartType.Line;
+                chart1.Series["Series7"].Points
+                    .DataBindXY(
+                        pricePoints
+                            .Select(p => (double)p.IndependentPrice).ToArray(),
+                        pricePoints
+                            .Select(p => (double)p.PITI[0]).ToArray());
+
+                Series series8 = new Series("Series8");
+                series8.ChartArea = "MainArea";
+                series8.LegendText = "20 Year Term";
+                series8.BorderWidth = 3;
+                chart1.Series.Add(series8);
+                chart1.Series["Series8"].ChartType = SeriesChartType.Line;
+                series8.ChartArea = "MainArea";
+                // Bind both arrays simultaneously
+                chart1.Series["Series8"].Points
+                    .DataBindXY(
+                        pricePoints
+                            .Select(p => (double)p.IndependentPrice).ToArray(),
+                        pricePoints
+                            .Select(p => (double)p.PITI[1]).ToArray());
+
+                Series series9 = new Series("Series9");
+                series9.ChartArea = "MainArea";
+                series9.LegendText = "30 Year Term";
+                series9.BorderWidth = 3;
+                chart1.Series.Add(series9);
+                chart1.Series["Series9"].ChartType = SeriesChartType.Line;
+                chart1.Series["Series9"].Points
+                    .DataBindXY(
+                        pricePoints
+                            .Select(p => (double)p.IndependentPrice).ToArray(),
+                        pricePoints
+                            .Select(p => (double)p.PITI[2]).ToArray());
+            }
+            chart1.ChartAreas[0].AxisY.Minimum = double.NaN;
+            chart1.ChartAreas[0].AxisY.Maximum = double.NaN;
+            chart1.ChartAreas[0].AxisY.Interval = double.NaN;
+            chart1.ChartAreas[0].RecalculateAxesScale();
         }
 
         private void CreateSalesPriceChart()
@@ -177,10 +254,10 @@ namespace MortgageSolver2
                     break;
             }
 
-            FileInfo fi = new FileInfo(@"c:\zzz\PI.csv");
-            var sw = fi.CreateText();
-            sw.Write(sbPI.ToString());
-            sw.Close();
+            //FileInfo fi = new FileInfo(@"c:\zzz\PI.csv");
+            //var sw = fi.CreateText();
+            //sw.Write(sbPI.ToString());
+            //sw.Close();
         }
 
         private void CalculateSalePricePoints(List<decimal> salePrices, decimal insurance)
@@ -193,9 +270,15 @@ namespace MortgageSolver2
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
                     var amountToFinance = nextHomePrice - (point.IndependentPrice - payoff - profitsWithheld);
+                    if (amountToFinance < 0)
+                    {
+                        amountToFinance = 0;
+                    }
+                    point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + propertyTax + insurance;
-                    point.Net[i++] = income - (monthlyPayment + expenses);
+                    point.Net[i] = income - (monthlyPayment + expenses);
+                    point.PITI[i++] = monthlyPayment;
                 }
             }
         }
@@ -210,9 +293,15 @@ namespace MortgageSolver2
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
                     var amountToFinance = point.IndependentPrice - (salePrice - payoff - profitsWithheld);
+                    if (amountToFinance < 0)
+                    {
+                        amountToFinance = 0;
+                    }
+                    point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + propertyTax + insurance;
-                    point.Net[i++] = income - (monthlyPayment + expenses);
+                    point.Net[i] = income - (monthlyPayment + expenses);
+                    point.PITI[i++] = monthlyPayment;
                 }
             }
         }
@@ -227,9 +316,15 @@ namespace MortgageSolver2
                 foreach (KeyValuePair<int, decimal> termRate in termRates)
                 {
                     var amountToFinance = purchasePrice - (salePrice - payoff - profitsWithheld);
+                    if (amountToFinance < 0)
+                    {
+                        amountToFinance = 0;
+                    }
+                    point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
                     var monthlyPayment = PI + (point.IndependentPrice / 12.0M) + insurance;
-                    point.Net[i++] = income - (monthlyPayment + expenses);
+                    point.Net[i] = income - (monthlyPayment + expenses);
+                    point.PITI[i++] = monthlyPayment;
                 }
             }
         }
@@ -311,6 +406,11 @@ namespace MortgageSolver2
                 }
                 firstPass = false;
             }
+        }
+
+        private void LowerChart_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateLowerChart();
         }
     }
 }
