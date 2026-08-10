@@ -41,6 +41,8 @@ namespace MortgageSolver2
             new ComboBoxItem1("$720,000", 720000.0M),
             new ComboBoxItem1("$725,000", 725000.0M),
             new ComboBoxItem1("$730,000", 730000.0M),
+            new ComboBoxItem1("$735,000", 735000.0M),
+            new ComboBoxItem1("$740,000", 740000.0M),
         };
 
         public static List<ComboBoxItem1> PurchasePriceItems = new List<ComboBoxItem1>

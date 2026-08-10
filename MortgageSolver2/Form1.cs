@@ -155,6 +155,7 @@ namespace MortgageSolver2
 
             //chart1.ChartAreas[0].AxisY.Maximum = yMax + padding;
             //chart1.ChartAreas[0].AxisY.Minimum = yMin - padding;
+            //chart.ChartAreas[0].AxisX.Interval = 1;
             chart.ChartAreas[0].RecalculateAxesScale();
 
             PopulateLowerChart();
