@@ -30,6 +30,8 @@ namespace MortgageSolver2
 
         private List<IndependentPricePoint> pricePoints = new List<IndependentPricePoint>();
 
+        private string xAxisTitle = string.Empty;
+
         private StringBuilder sbPI;
 
         public Form1()
@@ -79,15 +81,16 @@ namespace MortgageSolver2
             switch (independentVariable)
             {
                 case IndependentVariables.SalePrice:
-                    chart.ChartAreas[0].AxisX.Title = "Sale Price";
+                    xAxisTitle = "Sale Price";
                     break;
                 case IndependentVariables.PurchasePrice:
-                    chart.ChartAreas[0].AxisX.Title = "Purchase Price";
+                    xAxisTitle = "Purchase Price";
                     break;
                 case IndependentVariables.PropertyTax:
-                    chart.ChartAreas[0].AxisX.Title = "Property Tax";
+                    xAxisTitle = "Property Tax";
                     break;
             }
+            chart.ChartAreas[0].AxisX.Title = xAxisTitle;
             chart.ChartAreas[0].AxisY.Title = "P/L $";
 
             chart.Series.Clear();
@@ -104,6 +107,7 @@ namespace MortgageSolver2
                         .Select(p => (double)p.IndependentPrice).ToArray(),
                     pricePoints
                         .Select(p => (double)p.Net[0]).ToArray());
+            chart.Series[0].ToolTip = "#VALY{C0}";
 
             Series series2 = new Series("Series2");
             series2.ChartArea = "MainArea";
@@ -111,14 +115,13 @@ namespace MortgageSolver2
             series2.BorderWidth = 3;
             chart.Series.Add(series2);  
             chart.Series["Series2"].ChartType = SeriesChartType.Line;
-            series2.ChartArea = "MainArea";
-            // Bind both arrays simultaneously
             chart.Series["Series2"].Points
                 .DataBindXY(
                     pricePoints
                         .Select(p => (double)p.IndependentPrice).ToArray(),
                     pricePoints
                         .Select(p => (double)p.Net[1]).ToArray());
+            chart.Series[1].ToolTip = "#VALY{C0}";
 
             Series series3 = new Series("Series3");
             series3.ChartArea = "MainArea";
@@ -132,10 +135,26 @@ namespace MortgageSolver2
                         .Select(p => (double)p.IndependentPrice).ToArray(),
                     pricePoints
                         .Select(p => (double)p.Net[2]).ToArray());
+            chart.Series[2].ToolTip = "#VALY{C0}";
 
-            chart.ChartAreas[0].AxisY.Minimum = double.NaN;
+            List<double> allNetValues = pricePoints.SelectMany(p => p.Net).Select(n => (double)n).ToList();
+            var maxNet = allNetValues.Max();
+            var minNet = allNetValues.Min();
+            minNet = (Math.Floor(minNet / 100.0) * 100.0) - 100.0;
+            if (minNet < 0.0)
+                minNet = 0.0;
+            chart.ChartAreas[0].AxisY.Minimum = minNet;
             chart.ChartAreas[0].AxisY.Maximum = double.NaN;
             chart.ChartAreas[0].AxisY.Interval = double.NaN;
+
+            //double yMax = mySeries.Points.FindMaxByValue("Y").YValues[0];
+            //double yMin = mySeries.Points.FindMinByValue("Y").YValues[0];
+
+            //// Add a clean 5% padding manually instead of trusting the built-in auto-scale
+            //double padding = (yMax - yMin) * 0.05;
+
+            //chart1.ChartAreas[0].AxisY.Maximum = yMax + padding;
+            //chart1.ChartAreas[0].AxisY.Minimum = yMin - padding;
             chart.ChartAreas[0].RecalculateAxesScale();
 
             PopulateLowerChart();
@@ -152,6 +171,8 @@ namespace MortgageSolver2
             chart1.ChartAreas.Add(chartArea1);
             chart1.Series.Clear();
 
+            List<double> allValues = new List<double>();
+            var yAxisTitle = string.Empty;
             if (rbAmountFinanced.Checked)
             {
                 Series series4 = new Series("Series4");
@@ -166,6 +187,13 @@ namespace MortgageSolver2
                             .Select(p => (double)p.IndependentPrice).ToArray(),
                         pricePoints
                             .Select(p => (double)p.AmountFinanced).ToArray());
+                allValues.AddRange(pricePoints.Select(p => (double)p.AmountFinanced));
+                yAxisTitle = "Amount Financed";
+                series4.IsValueShownAsLabel = true;
+                series4.MarkerStyle = MarkerStyle.Circle;
+                series4.MarkerSize = 8;
+                series4.MarkerColor = Color.Green;
+                series4.BorderWidth = 3; // Make the line thicker
             }
             else
             {
@@ -209,8 +237,16 @@ namespace MortgageSolver2
                             .Select(p => (double)p.IndependentPrice).ToArray(),
                         pricePoints
                             .Select(p => (double)p.PITI[2]).ToArray());
+                yAxisTitle = "PITI $";
+                allValues.AddRange(pricePoints.SelectMany(p => p.PITI).Select(n => (double)n));
             }
-            chart1.ChartAreas[0].AxisY.Minimum = double.NaN;
+            chart1.ChartAreas[0].AxisX.Title = xAxisTitle;
+            chart1.ChartAreas[0].AxisY.Title = yAxisTitle;
+            var minY = pricePoints.Min(p => (double)p.IndependentPrice);
+            var maxY = pricePoints.Max(p => (double)p.IndependentPrice);
+            //chart1.ChartAreas[0].AxisY.Minimum = minY;
+            //chart1.ChartAreas[0].AxisY.Maximum = maxY;
+            chart1.ChartAreas[0].AxisY.Minimum = 0.0;
             chart1.ChartAreas[0].AxisY.Maximum = double.NaN;
             chart1.ChartAreas[0].AxisY.Interval = double.NaN;
             chart1.ChartAreas[0].RecalculateAxesScale();
