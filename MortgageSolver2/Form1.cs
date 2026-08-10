@@ -239,6 +239,10 @@ namespace MortgageSolver2
                             .Select(p => (double)p.PITI[2]).ToArray());
                 yAxisTitle = "PITI $";
                 allValues.AddRange(pricePoints.SelectMany(p => p.PITI).Select(n => (double)n));
+                chart1.Series[0].ToolTip = "#VALY{C0}";
+                chart1.Series[1].ToolTip = "#VALY{C0}";
+                chart1.Series[2].ToolTip = "#VALY{C0}";
+
             }
             chart1.ChartAreas[0].AxisX.Title = xAxisTitle;
             chart1.ChartAreas[0].AxisY.Title = yAxisTitle;
