@@ -21,6 +21,7 @@ namespace MortgageSolver2
         private decimal expenses;
         private decimal income;
         private decimal profitsWithheld;
+        private decimal hoaFee;
 
         private Dictionary<int, decimal> termRates;
 
@@ -63,6 +64,7 @@ namespace MortgageSolver2
             expenses = decimal.Parse(tbExpenses.Text, System.Globalization.NumberStyles.Currency);
             income = decimal.Parse(tbIncome.Text, System.Globalization.NumberStyles.Currency);
             profitsWithheld = decimal.Parse(tbProfitsWithheld.Text, System.Globalization.NumberStyles.Currency);
+            hoaFee = decimal.Parse(tbHOAFee.Text, System.Globalization.NumberStyles.Currency);
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
@@ -317,7 +319,7 @@ namespace MortgageSolver2
                     }
                     point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
-                    var monthlyPayment = PI + propertyTax + insurance;
+                    var monthlyPayment = PI + propertyTax + insurance + hoaFee;
                     point.Net[i] = income - (monthlyPayment + expenses);
                     point.PITI[i++] = monthlyPayment;
                 }
@@ -340,7 +342,7 @@ namespace MortgageSolver2
                     }
                     point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
-                    var monthlyPayment = PI + propertyTax + insurance;
+                    var monthlyPayment = PI + propertyTax + insurance + hoaFee;
                     point.Net[i] = income - (monthlyPayment + expenses);
                     point.PITI[i++] = monthlyPayment;
                 }
@@ -363,7 +365,7 @@ namespace MortgageSolver2
                     }
                     point.AmountFinanced = amountToFinance;
                     var PI = CalculatePI(amountToFinance, termRate.Value, termRate.Key);
-                    var monthlyPayment = PI + (point.IndependentPrice / 12.0M) + insurance;
+                    var monthlyPayment = PI + (point.IndependentPrice / 12.0M) + insurance + hoaFee;
                     point.Net[i] = income - (monthlyPayment + expenses);
                     point.PITI[i++] = monthlyPayment;
                 }
