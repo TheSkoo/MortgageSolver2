@@ -54,6 +54,8 @@
             this.rbAmountFinanced = new System.Windows.Forms.RadioButton();
             this.rbPITI = new System.Windows.Forms.RadioButton();
             this.tbProfitsWithheld = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbHOAFee = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -263,11 +265,30 @@
             this.tbProfitsWithheld.TabIndex = 29;
             this.tbProfitsWithheld.Text = "$0";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(290, 105);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "HOA Fee";
+            // 
+            // tbHOAFee
+            // 
+            this.tbHOAFee.Location = new System.Drawing.Point(347, 102);
+            this.tbHOAFee.Name = "tbHOAFee";
+            this.tbHOAFee.Size = new System.Drawing.Size(73, 20);
+            this.tbHOAFee.TabIndex = 34;
+            this.tbHOAFee.Text = "$0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1109, 714);
+            this.Controls.Add(this.tbHOAFee);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.rbPITI);
             this.Controls.Add(this.rbAmountFinanced);
             this.Controls.Add(this.chart1);
@@ -318,6 +339,8 @@
         private System.Windows.Forms.RadioButton rbAmountFinanced;
         private System.Windows.Forms.RadioButton rbPITI;
         private System.Windows.Forms.TextBox tbProfitsWithheld;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbHOAFee;
     }
 }
 
